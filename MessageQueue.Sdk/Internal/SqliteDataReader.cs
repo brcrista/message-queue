@@ -8,25 +8,20 @@ namespace MessageQueue.Sdk
     /// <summary>
     /// Provides read-only access to a SQLite database.
     /// </summary>
-    internal sealed class SqliteDataReader
+    internal sealed class SqliteDataReader : SqliteQueryRunner
     {
-        private readonly string connectionString;
-
         public SqliteDataReader(string databaseFilepath)
-        {
-            this.connectionString = new SqliteConnectionStringBuilder
+            : base(connectionString: new SqliteConnectionStringBuilder
             {
                 ["Data Source"] = databaseFilepath,
                 ["Mode"] = SqliteOpenMode.ReadOnly
-            }.ConnectionString;
+            }.ConnectionString)
+        {
         }
 
-        public async IAsyncEnumerable<object[]> ExecuteAsync(string sql, IReadOnlyDictionary<string, object>? parameters = null)
+        public override async IAsyncEnumerable<object[]> ExecuteAsync(string sql, IReadOnlyDictionary<string, object>? parameters = null)
         {
-            await using var dbConnection = new SqliteConnection(connectionString);
-            await dbConnection.OpenAsync();
-
-            SqliteCommand command = CreateCommand(dbConnection, sql, parameters);
+            var command = CreateCommand(sql, parameters);
             using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
@@ -34,22 +29,6 @@ namespace MessageQueue.Sdk
                 reader.GetValues(row);
                 yield return row;
             }
-        }
-
-        private SqliteCommand CreateCommand(SqliteConnection dbConnection, string sql, IReadOnlyDictionary<string, object>? parameters)
-        {
-            var command = dbConnection.CreateCommand();
-            command.CommandText = sql;
-
-            if (parameters != null)
-            {
-                foreach (var kvp in parameters)
-                {
-                    command.Parameters.AddWithValue(kvp.Key, kvp.Value);
-                }
-            }
-
-            return command;
         }
 
         /// <summary>
