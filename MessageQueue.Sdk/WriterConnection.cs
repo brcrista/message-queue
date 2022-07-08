@@ -2,7 +2,7 @@
 
 namespace MessageQueue.Sdk
 {
-    public class Class1
+    public sealed class WriterConnection
     {
     }
 }
