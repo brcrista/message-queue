@@ -10,4 +10,10 @@
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="sql\*" >
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
