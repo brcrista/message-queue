@@ -57,5 +57,17 @@ namespace MessageQueue.Sdk
                 _ => throw new SqlResultException($"Expected 0 or 1 rows, but got {resultRows.Count}.")
             };
         }
+
+        /// <summary>
+        /// Deletes all read messages from the queue.
+        /// </summary>
+        /// <returns>
+        /// Number of deleted messages.
+        /// </returns>
+        public async Task<int> PruneAsync()
+        {
+            var sql = await SqlLoader.LoadSqlAsync("proc_Delete.sql");
+            return await this.queryRunner.WriteAsync(sql);
+        }
     }
 }
