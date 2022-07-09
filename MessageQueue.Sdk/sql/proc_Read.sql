@@ -1,10 +1,10 @@
--- BEGIN
+BEGIN;
 
 CREATE TEMPORARY TABLE tbl_Result AS
 SELECT id, time_received, message
 FROM tbl_MessageQueue
 WHERE alive
--- TODO ORDER BY time_received
+ORDER BY time_received
 LIMIT 1;
 
 UPDATE tbl_MessageQueue
@@ -16,4 +16,4 @@ FROM tbl_Result;
 
 DROP TABLE tbl_Result;
 
--- COMMIT;
+COMMIT;
