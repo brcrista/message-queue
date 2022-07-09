@@ -31,7 +31,7 @@ namespace MessageQueue.Sdk
         }
 
         /// <summary>
-        /// Reads the next message from the queue.
+        /// Adds a message to the queue.
         /// </summary>
         public async Task PushAsync(string message)
         {
