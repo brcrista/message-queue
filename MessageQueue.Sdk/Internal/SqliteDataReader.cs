@@ -19,7 +19,7 @@ namespace MessageQueue.Sdk
         {
         }
 
-        public override async IAsyncEnumerable<object[]> ExecuteAsync(string sql, IReadOnlyDictionary<string, object>? parameters = null)
+        public async IAsyncEnumerable<object[]> ReadAsync(string sql, IReadOnlyDictionary<string, object>? parameters = null)
         {
             var command = CreateCommand(sql, parameters);
             using var reader = await command.ExecuteReaderAsync();

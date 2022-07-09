@@ -19,12 +19,7 @@ namespace MessageQueue.Sdk
             dbConnection.Open();
         }
 
-        public async ValueTask DisposeAsync()
-        {
-            await dbConnection.DisposeAsync();
-        }
-
-        public abstract IAsyncEnumerable<object[]> ExecuteAsync(string sql, IReadOnlyDictionary<string, object>? parameters = null);
+        public async ValueTask DisposeAsync() => await dbConnection.DisposeAsync();
 
         protected SqliteCommand CreateCommand(string sql, IReadOnlyDictionary<string, object>? parameters)
         {
