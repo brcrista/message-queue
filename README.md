@@ -1,6 +1,6 @@
 # Message Queue
 
-A durable message queue implemented using C# and SQLite.
+A minimal example of a durable message queue implemented using C# and SQLite.
 
 ## Building
 
