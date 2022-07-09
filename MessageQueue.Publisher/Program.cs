@@ -20,7 +20,7 @@ namespace MessageQueue.Publisher
             try
             {
                 var serviceProvider = ConfigureServices(new ServiceCollection()).BuildServiceProvider();
-                var messageProducer = serviceProvider.GetRequiredService<MessageProducer>();
+                await using var messageProducer = serviceProvider.GetRequiredService<MessageProducer>();
                 await messageProducer.ProduceMessagesAsync(maxMessages: 1024, waitTime: TimeSpan.FromSeconds(1));
 
                 return 0;

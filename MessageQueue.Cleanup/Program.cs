@@ -20,7 +20,7 @@ namespace MessageQueue.Cleanup
             try
             {
                 var serviceProvider = ConfigureServices(new ServiceCollection()).BuildServiceProvider();
-                var messageConsumer = serviceProvider.GetRequiredService<MessageCleanup>();
+                await using var messageConsumer = serviceProvider.GetRequiredService<MessageCleanup>();
                 await messageConsumer.DeleteMessagesAsync();
 
                 return 0;
