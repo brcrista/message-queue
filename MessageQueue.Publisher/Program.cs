@@ -11,7 +11,7 @@ namespace MessageQueue.Publisher
         static IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddSingleton(new WriterConnection("test"))
+                .AddSingleton(new DurableQueue("test"))
                 .AddSingleton<MessageProducer>();
         }
 

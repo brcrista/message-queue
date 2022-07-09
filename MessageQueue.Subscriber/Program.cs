@@ -11,7 +11,7 @@ namespace MessageQueue.Subscriber
         static IServiceCollection ConfigureServices(IServiceCollection services)
         {
             return services
-                .AddSingleton(new ReaderConnection("test"))
+                .AddSingleton(new DurableQueue("test"))
                 .AddSingleton<MessageConsumer>();
         }
 

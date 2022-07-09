@@ -14,4 +14,6 @@ WHERE id IN (SELECT id FROM tbl_Result);
 SELECT time_received, message
 FROM tbl_Result;
 
+DROP TABLE tbl_Result;
+
 -- COMMIT;

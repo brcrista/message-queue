@@ -7,29 +7,31 @@ namespace MessageQueue.Subscriber
 {
     internal class MessageConsumer : IAsyncDisposable
     {
-        private readonly ReaderConnection readerConnection;
+        private readonly DurableQueue queue;
 
-        public MessageConsumer(ReaderConnection readerConnection)
+        public MessageConsumer(DurableQueue queue)
         {
-            this.readerConnection = readerConnection;
+            this.queue = queue;
         }
 
-        public async ValueTask DisposeAsync() => await this.readerConnection.DisposeAsync();
+        public async ValueTask DisposeAsync() => await this.queue.DisposeAsync();
 
         public async Task ConsumeMessagesAsync()
         {
+            int messagesReceived = 0;
             while (true)
             {
-                var message = await readerConnection.PullMessageAsync();
+                var message = await this.queue.PullAsync();
                 if (message is null)
                 {
                     break;
                 }
 
+                messagesReceived++;
                 Console.WriteLine($"Received message '{message}'");
             }
 
-            Console.WriteLine("Done.");
+            Console.WriteLine($"Messages received: {messagesReceived}.");
         }
     }
 }
